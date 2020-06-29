@@ -1,0 +1,36 @@
+{
+  "name": "sap-cf-features",
+  "version": "0.0.1",
+  "description": "Read SAP CF feature flags in nodejs",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jowavp/sap-cf-features.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "keywords": [
+    "git",
+    "repository:"
+  ],
+  "author": "Joachim Van Praet",
+  "license": "ISC",
+  "dependencies": {
+    "@sap/xsenv": "^3.0.0",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "node-cache": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/node": "^14.0.14",
+    "@types/sap__xsenv": "^2.0.1",
+    "typescript": "^3.7.2"
+  }
+}
