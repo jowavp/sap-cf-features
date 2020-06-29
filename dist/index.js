@@ -11,23 +11,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const FeatureFlagsApi_1 = require("./FeatureFlagsApi");
-function getFeatureFlags(names, tenant) {
+/**
+ * get a list of feature flags for a certain identifier (e.g. tenant)
+ * @param names     String table with all names of the feature flags to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns  Key value pair of all requested feature flags
+ */
+function getFeatureFlags(names, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
         const flagNames = names ? typeof names === 'string' ? [names] : names : yield FeatureFlagsApi_1.getAllFlagNames();
-        return FeatureFlagsApi_1.batchEvaluate(flagNames, tenant);
+        return FeatureFlagsApi_1.batchEvaluate(flagNames, identifier);
     });
 }
 exports.getFeatureFlags = getFeatureFlags;
-function getFeatureFlag(name, tenant) {
+/**
+ * get a feature flag value for a certain identifier (e.g. tenant)
+ * @param names     String table with all names of the feature flags to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns  The value of the requested feature flags
+ */
+function getFeatureFlag(name, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield FeatureFlagsApi_1.batchEvaluate([name], tenant);
+        if (!name) {
+            throw 'Please specify a name for the feature you are looking for.';
+        }
+        const result = yield FeatureFlagsApi_1.batchEvaluate([name], identifier);
         return result[name];
     });
 }
 exports.getFeatureFlag = getFeatureFlag;
-function getFeatureFlagBoolean(name, tenant) {
+/**
+ * get a feature flag value for a certain identifier (e.g. tenant)
+ * @param name     Name of the feature flag to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns  The boolean value of the requested feature flag
+ */
+function getFeatureFlagBoolean(name, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield getFeatureFlag(name, tenant);
+        const result = yield getFeatureFlag(name, identifier);
         if (typeof result === "boolean") {
             return result;
         }
@@ -36,9 +57,15 @@ function getFeatureFlagBoolean(name, tenant) {
     });
 }
 exports.getFeatureFlagBoolean = getFeatureFlagBoolean;
-function getFeatureFlagString(name, tenant) {
+/**
+ * get a feature flag value for a certain identifier (e.g. tenant)
+ * @param names     Name of the feature flag to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns  The string of the requested feature flag
+ */
+function getFeatureFlagString(name, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield getFeatureFlag(name, tenant);
+        const result = yield getFeatureFlag(name, identifier);
         if (typeof result === "string") {
             return result;
         }
@@ -50,6 +77,12 @@ function getFeatureFlagString(name, tenant) {
     });
 }
 exports.getFeatureFlagString = getFeatureFlagString;
+/**
+ * Easy way to enable a ui5 app to read tenant aware feature flags.
+ * @returns An express router.
+ *          default route will list all features
+ *          '/:feature-name' will evaluate one feature
+ */
 function featureFlagRouter() {
     const router = express_1.Router();
     function getDomain(req) {

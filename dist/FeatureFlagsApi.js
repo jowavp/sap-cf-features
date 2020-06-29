@@ -21,17 +21,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const xsenv = __importStar(require("@sap/xsenv"));
 const axios_1 = __importDefault(require("axios"));
+/**
+ * @returns      Table with the names of all enabled feature flags.
+ */
 function getAllFlagNames() {
     return __awaiter(this, void 0, void 0, function* () {
         const allFlags = yield exportFlags();
         return allFlags.flags
-            // remove the filter here, because there is something wrong with boolean features
-            // boolean features that are active are always true. they should only be true when the feature is released no?
-            // .filter( (flag) => flag.enabled )
+            // hmmm, there is something wrong with boolean features on SAP side
+            // boolean features that are active are always default true if they don't have a strategy. 
+            // they should have a default value just as the string values
+            .filter((flag) => flag.enabled)
             .map((flag) => flag.id);
     });
 }
 exports.getAllFlagNames = getAllFlagNames;
+/**
+ * @returns     Definition of all flags (enabled and disabled) in the system
+ */
 function exportFlags() {
     return __awaiter(this, void 0, void 0, function* () {
         const service = getService();
@@ -47,13 +54,19 @@ function exportFlags() {
         })).data;
     });
 }
-function batchEvaluate(names, tenant) {
+/**
+ *
+ * @param names     String table with all names of the feature flags to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns     Key value pair of all requested feature flags.
+ */
+function batchEvaluate(names, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
         if (names.length === 0) {
             return {};
         }
         const service = getService();
-        const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant || ""}`;
+        const url = `/api/v2/evaluateset?${names.map((name) => `flag=${name}`).join('&')}` + identifier ? `&identifier=${identifier || ""}` : ``;
         const response = yield axios_1.default.get(url, {
             url,
             method: 'get',
@@ -76,10 +89,10 @@ function batchEvaluate(names, tenant) {
     });
 }
 exports.batchEvaluate = batchEvaluate;
-function getFlags(name) {
-    return `flag=${name}`;
-}
-// get the feature service configuration
+/**
+ * get the feature service configuration
+ * @returns connection parameters for the feature flag API
+ */
 function getService() {
     const { featureFlags } = xsenv.getServices({
         featureFlags: {

@@ -2,16 +2,22 @@ import * as xsenv from '@sap/xsenv';
 import axios from 'axios';
 import { IFeatureFlagExport, IFeatureFlagMap, IReturnFlag, IFeatureService } from './types';
 
-
+/**
+ * @returns      Table with the names of all enabled feature flags.
+ */
 export async function getAllFlagNames() {
     const allFlags = await exportFlags();
     return allFlags.flags
-        // remove the filter here, because there is something wrong with boolean features
-        // boolean features that are active are always true. they should only be true when the feature is released no?
-        // .filter( (flag) => flag.enabled )
+        // hmmm, there is something wrong with boolean features on SAP side
+        // boolean features that are active are always default true if they don't have a strategy. 
+        // they should have a default value just as the string values
+        .filter( (flag) => flag.enabled )
         .map( (flag) => flag.id );
 }
 
+/**
+ * @returns     Definition of all flags (enabled and disabled) in the system
+ */
 async function exportFlags() {
     const service = getService();
     const url = "/api/v1/features/export";
@@ -27,14 +33,20 @@ async function exportFlags() {
     })).data;
 }
 
-export async function batchEvaluate(names: string[], tenant: string) {
+/**
+ * 
+ * @param names     String table with all names of the feature flags to evaluate
+ * @param identifier To make it tenant aware, you can give the name of the tenant here. You can enable features for certain tenants with the direct delivery strategy.
+ * @returns     Key value pair of all requested feature flags. 
+ */
+export async function batchEvaluate(names: string[], identifier?: string) {
 
     if(names.length === 0) {
         return {};
     }
 
     const service = getService();
-    const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant || ""}`;
+    const url = `/api/v2/evaluateset?${names.map((name) => `flag=${name}`).join('&')}` + identifier ? `&identifier=${identifier || ""}` : ``;
 
     const response = await axios.get<IFeatureFlagMap>(url, {
         url,
@@ -61,11 +73,10 @@ export async function batchEvaluate(names: string[], tenant: string) {
     )
 }
 
-function getFlags (name) {
-    return `flag=${name}`
-}
-
-// get the feature service configuration
+/**
+ * get the feature service configuration
+ * @returns connection parameters for the feature flag API
+ */
 function getService(): IFeatureService {
     const { featureFlags } = xsenv.getServices({
         featureFlags: {
