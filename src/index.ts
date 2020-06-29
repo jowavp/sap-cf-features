@@ -36,7 +36,7 @@ export async function getFeatureFlagString(name: string, tenant: string) {
     return undefined;
 }
 
-export async function featureFlagRouter () {
+export function featureFlagRouter () {
     const router = Router();
 
     function getDomain(req: any) {
