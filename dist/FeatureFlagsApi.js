@@ -24,7 +24,11 @@ const axios_1 = __importDefault(require("axios"));
 function getAllFlagNames() {
     return __awaiter(this, void 0, void 0, function* () {
         const allFlags = yield exportFlags();
-        return allFlags.flags.filter((flag) => flag.enabled).map((flag) => flag.id);
+        return allFlags.flags
+            // remove the filter here, because there is something wrong with boolean features
+            // boolean features that are active are always true. they should only be true when the feature is released no?
+            // .filter( (flag) => flag.enabled )
+            .map((flag) => flag.id);
     });
 }
 exports.getAllFlagNames = getAllFlagNames;
@@ -45,8 +49,11 @@ function exportFlags() {
 }
 function batchEvaluate(names, tenant) {
     return __awaiter(this, void 0, void 0, function* () {
+        if (names.length === 0) {
+            return {};
+        }
         const service = getService();
-        const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant}`;
+        const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant || ""}`;
         const response = yield axios_1.default.get(url, {
             url,
             method: 'get',
