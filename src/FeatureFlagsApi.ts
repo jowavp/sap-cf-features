@@ -5,7 +5,11 @@ import { IFeatureFlagExport, IFeatureFlagMap, IReturnFlag, IFeatureService } fro
 
 export async function getAllFlagNames() {
     const allFlags = await exportFlags();
-    return allFlags.flags.filter( (flag) => flag.enabled ).map( (flag) => flag.id );
+    return allFlags.flags
+        // remove the filter here, because there is something wrong with boolean features
+        // boolean features that are active are always true. they should only be true when the feature is released no?
+        // .filter( (flag) => flag.enabled )
+        .map( (flag) => flag.id );
 }
 
 async function exportFlags() {
@@ -24,8 +28,13 @@ async function exportFlags() {
 }
 
 export async function batchEvaluate(names: string[], tenant: string) {
+
+    if(names.length === 0) {
+        return {};
+    }
+
     const service = getService();
-    const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant}`;
+    const url = `/api/v2/evaluateset?${names.map(getFlags).join('&')}&identifier=${tenant || ""}`;
 
     const response = await axios.get<IFeatureFlagMap>(url, {
         url,

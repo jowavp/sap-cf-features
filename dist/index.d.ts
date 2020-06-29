@@ -3,4 +3,4 @@ export declare function getFeatureFlags(names: string | string[] | undefined, te
 export declare function getFeatureFlag(name: string, tenant: string): Promise<string | boolean>;
 export declare function getFeatureFlagBoolean(name: string, tenant: string): Promise<boolean | undefined>;
 export declare function getFeatureFlagString(name: string, tenant: string): Promise<string | undefined>;
-export declare function featureFlagRouter(): Promise<import("express-serve-static-core").Router>;
+export declare function featureFlagRouter(): import("express-serve-static-core").Router;

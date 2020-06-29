@@ -51,26 +51,24 @@ function getFeatureFlagString(name, tenant) {
 }
 exports.getFeatureFlagString = getFeatureFlagString;
 function featureFlagRouter() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const router = express_1.Router();
-        function getDomain(req) {
-            return req.authInfo ? req.authInfo.subdomain : "";
-        }
-        router.get('/:flagName', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            //@ts-ignore
-            const { flagName } = req.params;
-            const result = yield getFeatureFlags(flagName, getDomain(req));
-            res.status(200).json(result);
-            next();
-        }));
-        router.get('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            // get all feature-flags
-            const flagNames = yield FeatureFlagsApi_1.getAllFlagNames();
-            const result = yield getFeatureFlags(flagNames, getDomain(req));
-            res.status(200).json(result);
-            next();
-        }));
-        return router;
-    });
+    const router = express_1.Router();
+    function getDomain(req) {
+        return req.authInfo ? req.authInfo.subdomain : "";
+    }
+    router.get('/:flagName', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+        //@ts-ignore
+        const { flagName } = req.params;
+        const result = yield getFeatureFlags(flagName, getDomain(req));
+        res.status(200).json(result);
+        next();
+    }));
+    router.get('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+        // get all feature-flags
+        const flagNames = yield FeatureFlagsApi_1.getAllFlagNames();
+        const result = yield getFeatureFlags(flagNames, getDomain(req));
+        res.status(200).json(result);
+        next();
+    }));
+    return router;
 }
 exports.featureFlagRouter = featureFlagRouter;
