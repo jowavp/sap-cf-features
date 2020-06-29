@@ -1,6 +1,6 @@
 {
   "name": "sap-cf-features",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Read SAP CF feature flags in nodejs",
   "main": "dist/index.js",
   "files": [
