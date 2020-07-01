@@ -46,7 +46,8 @@ export async function batchEvaluate(names: string[], identifier?: string) {
     }
 
     const service = getService();
-    const url = `/api/v2/evaluateset?${names.map((name) => `flag=${name}`).join('&')}` + identifier ? `&identifier=${identifier || ""}` : ``;
+    const identifierUrl = identifier ? `&identifier=${identifier || ""}` : ``;
+    const url = `/api/v2/evaluateset?${names.map((name) => `flag=${name}`).join('&')}${identifierUrl}`
 
     const response = await axios.get<IFeatureFlagMap>(url, {
         url,
@@ -64,8 +65,10 @@ export async function batchEvaluate(names: string[], identifier?: string) {
     return Object.entries(response.data).reduce<IReturnFlag>(
         ( acc, [flagName, tenant] ) => {
             const value = Object.values(tenant)[0];
-            if (value.httpStatus !== 404) {
+            if (value && value.httpStatus !== 404) {
                 acc[flagName] = value.type === "BOOLEAN" ? value.variation === "true" : value.variation;
+            } else {
+                console.error(`Cannot read values for ${flagName}: ${tenant}`);
             }
             return acc;
         },

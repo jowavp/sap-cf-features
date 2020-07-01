@@ -1,6 +1,6 @@
 {
   "name": "sap-cf-features",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "description": "Read SAP CF feature flags in nodejs",
   "main": "dist/index.js",
   "files": [
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/jowavp/sap-cf-features.git"
   },
   "scripts": {
-    "doc": "typedoc --tsconfig ./tsconfig.json",
+    "doc": "typedoc --tsconfig ./tsconfig.json --plugin typedoc-plugin-markdown",
     "build": "tsc && npm run doc",
     "deploy": "npm run build && npm publish"
   },
@@ -33,6 +33,7 @@
     "@types/node": "^14.0.14",
     "@types/sap__xsenv": "^2.0.1",
     "typedoc": "^0.17.8",
+    "typedoc-plugin-markdown": "^2.3.1",
     "typescript": "^3.7.2"
   }
 }

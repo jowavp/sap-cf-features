@@ -33,4 +33,4 @@ export declare function getFeatureFlagString(name: string, identifier?: string):
  *          default route will list all features
  *          '/:feature-name' will evaluate one feature
  */
-export declare function featureFlagRouter(): import("express-serve-static-core").Router;
+export declare function featureFlagRouter(identifierFn?: (Request: any) => string, forConnect?: boolean): import("express-serve-static-core").Router;

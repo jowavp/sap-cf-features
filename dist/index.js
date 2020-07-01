@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.featureFlagRouter = exports.getFeatureFlagString = exports.getFeatureFlagBoolean = exports.getFeatureFlag = exports.getFeatureFlags = void 0;
 const express_1 = require("express");
 const FeatureFlagsApi_1 = require("./FeatureFlagsApi");
 /**
@@ -78,29 +79,52 @@ function getFeatureFlagString(name, identifier) {
 }
 exports.getFeatureFlagString = getFeatureFlagString;
 /**
+ * Default function to determine identifier.
+ * @param req
+ */
+function getDomain(req) {
+    // when using passport req.authInfo will contain tenant info.
+    // when using the approuter, req.user.tenant is containing the tenant id.
+    return req.authInfo ? req.authInfo.subdomain : req.user ? req.user.tenant : "";
+}
+/**
  * Easy way to enable a ui5 app to read tenant aware feature flags.
  * @returns An express router.
  *          default route will list all features
  *          '/:feature-name' will evaluate one feature
  */
-function featureFlagRouter() {
+function featureFlagRouter(identifierFn = getDomain, forConnect = false) {
     const router = express_1.Router();
-    function getDomain(req) {
-        return req.authInfo ? req.authInfo.subdomain : "";
+    function respond(res, next, result, status = 200) {
+        if (forConnect) {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(result));
+        }
+        else {
+            res.status(200).json(result);
+            next();
+        }
     }
+    router.use(function checkAuth(req, res, next) {
+        //@ts-ignore
+        if (!req.authInfo && !req.user) {
+            res.statusCode = 401;
+            res.end('Unauthorized');
+        }
+        next();
+    });
     router.get('/:flagName', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         //@ts-ignore
         const { flagName } = req.params;
-        const result = yield getFeatureFlags(flagName, getDomain(req));
-        res.status(200).json(result);
-        next();
+        const result = yield getFeatureFlags(flagName, identifierFn(req));
+        respond(res, next, result);
     }));
     router.get('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         // get all feature-flags
         const flagNames = yield FeatureFlagsApi_1.getAllFlagNames();
-        const result = yield getFeatureFlags(flagNames, getDomain(req));
-        res.status(200).json(result);
-        next();
+        const result = yield getFeatureFlags(flagNames, identifierFn(req));
+        respond(res, next, result);
     }));
     return router;
 }

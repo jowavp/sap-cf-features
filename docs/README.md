@@ -1,3 +1,7 @@
+[sap-cf-features](README.md) › [Globals](globals.md)
+
+# sap-cf-features
+
 # sap-cf-features
 NodeJS Library to read the features of the feature-flag-service on SAP Cloud Foundry.
 
@@ -43,6 +47,5 @@ https://blogs.sap.com/2020/07/01/library-for-feature-flags-in-nodejs-on-cloud-fo
     const identifierFn = (req) => req.authInfo.subdomain;
 
     app.use("/feature-flags", featureFlagRouter(identifierFn));
-
 
 ```

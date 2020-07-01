@@ -1,5 +1,5 @@
 
-import {Router} from 'express';
+import {Router, Response, Request, NextFunction} from 'express';
 import { batchEvaluate, getAllFlagNames }from './FeatureFlagsApi';
 
 export { IFeatureFlagExport, IFeatureFlagMap, IReturnFlag, IFeatureService } from './types';
@@ -63,33 +63,58 @@ export async function getFeatureFlagString(name: string, identifier?: string) {
 }
 
 /**
+ * Default function to determine identifier.
+ * @param req 
+ */
+function getDomain(req: any) {
+    // when using passport req.authInfo will contain tenant info.
+    // when using the approuter, req.user.tenant is containing the tenant id.
+    return req.authInfo ? req.authInfo.subdomain : req.user ? req.user.tenant : "";
+}
+
+/**
  * Easy way to enable a ui5 app to read tenant aware feature flags.
  * @returns An express router. 
  *          default route will list all features
  *          '/:feature-name' will evaluate one feature
  */
-export function featureFlagRouter () {
+export function featureFlagRouter (identifierFn: (Request) => string = getDomain, forConnect: boolean = false) {
     const router = Router();
-
-    function getDomain(req: any) {
-        return req.authInfo ? req.authInfo.subdomain : "";
+    
+    function respond(res: Response, next: NextFunction, result: any, status: number = 200 ) {
+        if(forConnect){
+            res.statusCode = 200
+            res.setHeader('Content-Type', 'application/json')
+            res.end(JSON.stringify(result));
+        } else {
+            res.status(200).json(result);
+            next();
+        }
     }
+
+    router.use(function checkAuth(req, res, next) {
+        //@ts-ignore
+        if(!req.authInfo && !req.user) {
+            res.statusCode = 401;
+            res.end('Unauthorized');
+        }
+        next();
+    })
 
     router.get( '/:flagName', async (req, res, next) => {
         //@ts-ignore
         const {flagName} = req.params;
-        const result = await getFeatureFlags(flagName, getDomain(req))
-        res.status(200).json(result);
-        next();
+        const result = await getFeatureFlags(flagName, identifierFn(req))
+        respond(res, next, result);
     });
 
     router.get( '/', async (req, res, next) => {
         // get all feature-flags
         const flagNames = await getAllFlagNames();
-        const result = await getFeatureFlags(flagNames, getDomain(req))
-        res.status(200).json(result);
-        next();
+        const result = await getFeatureFlags(flagNames, identifierFn(req))
+        respond(res, next, result);
     })
 
     return router;
 }
+
