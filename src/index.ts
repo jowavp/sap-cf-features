@@ -41,6 +41,9 @@ export async function getFeatureFlagBoolean(name: string, identifier?: string) {
         return result
     }
     console.warn(`Feature flag ${name} is not of type 'BOOLEAN'`);
+    if(typeof result === "string"){
+        return result === "true";
+    }
     return undefined;
 }
 
@@ -78,6 +81,7 @@ function getDomain(req: any) {
  *          default route will list all features
  *          '/:feature-name' will evaluate one feature
  */
+
 export function featureFlagRouter (identifierFn: (Request) => string = getDomain, forConnect: boolean = false) {
     const router = Router();
     
@@ -117,4 +121,5 @@ export function featureFlagRouter (identifierFn: (Request) => string = getDomain
 
     return router;
 }
+
 

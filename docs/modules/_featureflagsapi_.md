@@ -17,7 +17,7 @@
 
 ▸ **batchEvaluate**(`names`: string[], `identifier?`: undefined | string): *Promise‹object›*
 
-*Defined in [FeatureFlagsApi.ts:42](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/FeatureFlagsApi.ts#L42)*
+*Defined in [FeatureFlagsApi.ts:42](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/FeatureFlagsApi.ts#L42)*
 
 **Parameters:**
 
@@ -36,7 +36,7 @@ ___
 
 ▸ **exportFlags**(): *Promise‹object›*
 
-*Defined in [FeatureFlagsApi.ts:21](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/FeatureFlagsApi.ts#L21)*
+*Defined in [FeatureFlagsApi.ts:21](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/FeatureFlagsApi.ts#L21)*
 
 **Returns:** *Promise‹object›*
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **getAllFlagNames**(): *Promise‹string[]›*
 
-*Defined in [FeatureFlagsApi.ts:8](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/FeatureFlagsApi.ts#L8)*
+*Defined in [FeatureFlagsApi.ts:8](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/FeatureFlagsApi.ts#L8)*
 
 **Returns:** *Promise‹string[]›*
 
@@ -60,7 +60,7 @@ ___
 
 ▸ **getService**(): *[IFeatureService](_types_index_.md#ifeatureservice)*
 
-*Defined in [FeatureFlagsApi.ts:83](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/FeatureFlagsApi.ts#L83)*
+*Defined in [FeatureFlagsApi.ts:83](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/FeatureFlagsApi.ts#L83)*
 
 get the feature service configuration
 

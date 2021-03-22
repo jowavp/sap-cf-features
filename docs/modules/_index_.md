@@ -50,7 +50,7 @@ ___
 
 ▸ **featureFlagRouter**(`identifierFn`: function, `forConnect`: boolean): *Router‹›*
 
-*Defined in [index.ts:81](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L81)*
+*Defined in [index.ts:84](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L84)*
 
 Easy way to enable a ui5 app to read tenant aware feature flags.
 
@@ -80,7 +80,7 @@ ___
 
 ▸ **getDomain**(`req`: any): *any*
 
-*Defined in [index.ts:69](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L69)*
+*Defined in [index.ts:72](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L72)*
 
 Default function to determine identifier.
 
@@ -98,7 +98,7 @@ ___
 
 ▸ **getFeatureFlag**(`name`: string, `identifier?`: undefined | string): *Promise‹string | false | true›*
 
-*Defined in [index.ts:24](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L24)*
+*Defined in [index.ts:24](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L24)*
 
 get a feature flag value for a certain identifier (e.g. tenant)
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **getFeatureFlagBoolean**(`name`: string, `identifier?`: undefined | string): *Promise‹undefined | false | true›*
 
-*Defined in [index.ts:38](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L38)*
+*Defined in [index.ts:38](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L38)*
 
 get a feature flag value for a certain identifier (e.g. tenant)
 
@@ -140,7 +140,7 @@ ___
 
 ▸ **getFeatureFlagString**(`name`: string, `identifier?`: undefined | string): *Promise‹undefined | string›*
 
-*Defined in [index.ts:53](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L53)*
+*Defined in [index.ts:56](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L56)*
 
 get a feature flag value for a certain identifier (e.g. tenant)
 
@@ -161,7 +161,7 @@ ___
 
 ▸ **getFeatureFlags**(`names?`: string | string[], `identifier?`: undefined | string): *Promise‹object›*
 
-*Defined in [index.ts:13](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/index.ts#L13)*
+*Defined in [index.ts:13](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/index.ts#L13)*
 
 get a list of feature flags for a certain identifier (e.g. tenant)
 

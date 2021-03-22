@@ -54,6 +54,9 @@ function getFeatureFlagBoolean(name, identifier) {
             return result;
         }
         console.warn(`Feature flag ${name} is not of type 'BOOLEAN'`);
+        if (typeof result === "string") {
+            return result === "true";
+        }
         return undefined;
     });
 }

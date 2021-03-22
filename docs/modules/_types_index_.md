@@ -21,7 +21,7 @@
 
 Ƭ **IDirectShipment**: *object*
 
-*Defined in [types/index.ts:32](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L32)*
+*Defined in [types/index.ts:32](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L32)*
 
 #### Type declaration:
 
@@ -37,7 +37,7 @@ ___
 
 Ƭ **IFeatureFlag**: *object*
 
-*Defined in [types/index.ts:14](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L14)*
+*Defined in [types/index.ts:14](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L14)*
 
 #### Type declaration:
 
@@ -53,7 +53,7 @@ ___
 
 Ƭ **IFeatureFlagConfiguration**: *object*
 
-*Defined in [types/index.ts:20](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L20)*
+*Defined in [types/index.ts:20](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L20)*
 
 #### Type declaration:
 
@@ -81,7 +81,7 @@ ___
 
 Ƭ **IFeatureFlagExport**: *object*
 
-*Defined in [types/index.ts:43](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L43)*
+*Defined in [types/index.ts:43](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L43)*
 
 #### Type declaration:
 
@@ -95,7 +95,7 @@ ___
 
 Ƭ **IFeatureFlagMap**: *object*
 
-*Defined in [types/index.ts:8](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L8)*
+*Defined in [types/index.ts:8](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L8)*
 
 #### Type declaration:
 
@@ -109,7 +109,7 @@ ___
 
 Ƭ **IFeatureService**: *object*
 
-*Defined in [types/index.ts:2](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L2)*
+*Defined in [types/index.ts:2](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L2)*
 
 #### Type declaration:
 
@@ -125,7 +125,7 @@ ___
 
 Ƭ **IReturnFlag**: *object*
 
-*Defined in [types/index.ts:48](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L48)*
+*Defined in [types/index.ts:48](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L48)*
 
 #### Type declaration:
 
@@ -137,7 +137,7 @@ ___
 
 Ƭ **IWeightedChoice**: *object*
 
-*Defined in [types/index.ts:38](https://github.com/jowavp/sap-cf-features/blob/1547a1c/src/types/index.ts#L38)*
+*Defined in [types/index.ts:38](https://github.com/jowavp/sap-cf-features/blob/ce24c53/src/types/index.ts#L38)*
 
 #### Type declaration:
 
