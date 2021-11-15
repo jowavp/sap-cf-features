@@ -111,11 +111,11 @@ exports.batchEvaluate = batchEvaluate;
  * @returns connection parameters for the feature flag API
  */
 function getService() {
-    const { featureFlags } = xsenv.getServices({
-        featureFlags: {
+    const featureFlags = xsenv.getServices({
+        "feature-flags": {
             tag: 'feature-flags'
         }
-    });
+    })["feature-flags"];
     if (!featureFlags) {
         throw ('No feature-flags service available');
     }

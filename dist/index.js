@@ -20,8 +20,8 @@ const FeatureFlagsApi_1 = require("./FeatureFlagsApi");
  */
 function getFeatureFlags(names, identifier) {
     return __awaiter(this, void 0, void 0, function* () {
-        const flagNames = names ? typeof names === 'string' ? [names] : names : yield FeatureFlagsApi_1.getAllFlagNames();
-        return FeatureFlagsApi_1.batchEvaluate(flagNames, identifier);
+        const flagNames = names ? typeof names === 'string' ? [names] : names : yield (0, FeatureFlagsApi_1.getAllFlagNames)();
+        return (0, FeatureFlagsApi_1.batchEvaluate)(flagNames, identifier);
     });
 }
 exports.getFeatureFlags = getFeatureFlags;
@@ -36,7 +36,7 @@ function getFeatureFlag(name, identifier) {
         if (!name) {
             throw 'Please specify a name for the feature you are looking for.';
         }
-        const result = yield FeatureFlagsApi_1.batchEvaluate([name], identifier);
+        const result = yield (0, FeatureFlagsApi_1.batchEvaluate)([name], identifier);
         return result[name];
     });
 }
@@ -97,7 +97,7 @@ function getDomain(req) {
  *          '/:feature-name' will evaluate one feature
  */
 function featureFlagRouter(identifierFn = getDomain, forConnect = false) {
-    const router = express_1.Router();
+    const router = (0, express_1.Router)();
     function respond(res, next, result, status = 200) {
         if (forConnect) {
             res.statusCode = 200;
@@ -125,7 +125,7 @@ function featureFlagRouter(identifierFn = getDomain, forConnect = false) {
     }));
     router.get('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
         // get all feature-flags
-        const flagNames = yield FeatureFlagsApi_1.getAllFlagNames();
+        const flagNames = yield (0, FeatureFlagsApi_1.getAllFlagNames)();
         const result = yield getFeatureFlags(flagNames, identifierFn(req));
         respond(res, next, result);
     }));
