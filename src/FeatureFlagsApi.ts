@@ -82,7 +82,7 @@ export async function batchEvaluate(names: string[], identifier?: string) {
  */
 function getService(): IFeatureService {
     const { featureFlags } = xsenv.getServices({
-        featureFlags: {
+        "feature-flags": {
             tag: 'feature-flags'
         }
     });
