@@ -81,11 +81,11 @@ export async function batchEvaluate(names: string[], identifier?: string) {
  * @returns connection parameters for the feature flag API
  */
 function getService(): IFeatureService {
-    const { featureFlags } = xsenv.getServices({
+    const featureFlags = xsenv.getServices({
         "feature-flags": {
             tag: 'feature-flags'
         }
-    });
+    })["feature-flags"];
 
     if (!featureFlags) {
         throw ('No feature-flags service available');
